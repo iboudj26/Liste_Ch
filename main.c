@@ -27,6 +27,20 @@ P=(Liste*)malloc(sizeof(Liste));  printf("\ndooez la valeur de la noiuvelle tete
 P->suiv=L;
 L=P;
 return L ;   }
+//inserer au milieu de la list selon la pos
+Liste* Inserer_Mil(Liste *T , int Pos){
+    Liste *Mil, *Elet;
+    int i ;
+    Mil = (Liste*)malloc(sizeof(Liste));
+    Elet = (Liste*)malloc(sizeof(Liste));    printf("Donnez la valeur de l'element milieu :");   scanf("%d",&Mil->val);
+    Elet = T ;
+    //boucle de la position
+    for(i=1;i<Pos;i++){
+        Elet = Elet->suiv;     }
+    Mil->suiv = Elet->suiv;
+    Elet->suiv = Mil ;
+    return T ;
+}
 //inserer à la fin
 Liste* Inserer_Fin(Liste *Q){
 Liste *Der_elet , *elet;
@@ -35,8 +49,7 @@ elet=(Liste*)malloc(sizeof(Liste));   printf("Donnez la nouvelle fin : ");     s
 Der_elet->suiv=NULL;  elet=Q;
 while(elet->suiv != NULL){
     elet=elet->suiv;   }    elet->suiv=Der_elet;
-return Q ;
-}
+return Q ;    }
 //Procedure pour afficher les elements d'une liste
 void affiche_list(Liste *L){
 Liste *T;
@@ -55,6 +68,10 @@ main(){
     affiche_list(liste);
     //inserer une nouvelle tete
     liste = Inserer_tete(liste);
+     //Inserer au milieu de la liste
+    do{   printf("\n Donnez la position pour inserer une nouvelle elet : ");    scanf("%d",&pos);
+    }while(pos<=0 || pos>nbr);
+    liste=Inserer_Mil(liste ,pos);
     //inserer à l'afin de la liste
     liste= Inserer_Fin(liste);*/
       //appel de la fonction affiche_list

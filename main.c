@@ -20,6 +20,23 @@ for(i=2;i<=n;i++){
 }L=T;
    return L;
 }
+//fonction insertion d'une nouvelle tete
+Liste* Inserer_tete(Liste *L){
+Liste *P ;
+P=(Liste*)malloc(sizeof(Liste));  printf("\ndooez la valeur de la noiuvelle tete : ");  scanf("%d",&P->val);
+P->suiv=L;
+L=P;
+return L ;   }
+//inserer à la fin
+Liste* Inserer_Fin(Liste *Q){
+Liste *Der_elet , *elet;
+Der_elet=(Liste*)malloc(sizeof(Liste));
+elet=(Liste*)malloc(sizeof(Liste));   printf("Donnez la nouvelle fin : ");     scanf("%d",&Der_elet->val);
+Der_elet->suiv=NULL;  elet=Q;
+while(elet->suiv != NULL){
+    elet=elet->suiv;   }    elet->suiv=Der_elet;
+return Q ;
+}
 //Procedure pour afficher les elements d'une liste
 void affiche_list(Liste *L){
 Liste *T;
@@ -35,5 +52,11 @@ main(){
     //Appel de la fonction Creer_Liste
     liste = Creer_Liste(nbr , T);
     //appel de la fonction affiche_list
+    affiche_list(liste);
+    //inserer une nouvelle tete
+    liste = Inserer_tete(liste);
+    //inserer à l'afin de la liste
+    liste= Inserer_Fin(liste);*/
+      //appel de la fonction affiche_list
     affiche_list(liste);
 }

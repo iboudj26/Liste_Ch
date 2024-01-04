@@ -55,6 +55,17 @@ Liste* Sup_Tete(Liste *T){
   if(T==NULL)  exit(0);
    Liste *sup=T;     T=T->suiv;   free(sup);
    return T ;    }
+    //supres une element au milieu
+   Liste* Sup_Mil(Liste *T , int posi){
+   Liste *ele_sup , *ele_pred;
+   int i ;           ele_sup = T ;
+   for(i=1;i<posi;i++){
+    ele_pred=ele_sup;
+    ele_sup=ele_sup->suiv;
+   }
+   ele_pred->suiv=ele_sup->suiv;
+   free(ele_sup);
+   return T ;    }
    //Suprimer la fin de la liste
 Liste* Sup_Fin(Liste *Q){
     Liste *Ele;
@@ -95,6 +106,9 @@ main(){
     affiche_list(liste);
      //Apell de la fct sup le debut
     liste = Sup_Tete(liste);
+    //Sup milieu
+    do{        printf("\n Donnez la position pour suprimer elet : ");      scanf("%d",&pos);   }while(pos<=0 || pos>nbr);
+    liste = Sup_Mil(liste,pos);
      //Appel de la fct sup la fin
     liste = Sup_Fin(liste);
     //Appel fct affiche apres supression

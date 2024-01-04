@@ -50,6 +50,23 @@ Der_elet->suiv=NULL;  elet=Q;
 while(elet->suiv != NULL){
     elet=elet->suiv;   }    elet->suiv=Der_elet;
 return Q ;    }
+//Suprimer la tete
+Liste* Sup_Tete(Liste *T){
+  if(T==NULL)  exit(0);
+   Liste *sup=T;     T=T->suiv;   free(sup);
+   return T ;    }
+   //Suprimer la fin de la liste
+Liste* Sup_Fin(Liste *Q){
+    Liste *Ele;
+    Ele=Q;
+    Liste *elet_pre;
+    while(Ele->suiv != NULL){
+        elet_pre = Ele;
+            Ele=Ele->suiv;   }
+    elet_pre->suiv = NULL;
+    printf("La valeur de la Fin suprime est  : %d ",Ele->val);
+    free(Ele);
+    return Q ;  }
 //Procedure pour afficher les elements d'une liste
 void affiche_list(Liste *L){
 Liste *T;
@@ -75,5 +92,11 @@ main(){
     //inserer à l'afin de la liste
     liste= Inserer_Fin(liste);*/
       //appel de la fonction affiche_list
+    affiche_list(liste);
+     //Apell de la fct sup le debut
+    liste = Sup_Tete(liste);
+     //Appel de la fct sup la fin
+    liste = Sup_Fin(liste);
+    //Appel fct affiche apres supression
     affiche_list(liste);
 }

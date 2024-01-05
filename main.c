@@ -78,6 +78,14 @@ Liste* Sup_Fin(Liste *Q){
     printf("La valeur de la Fin suprime est  : %d ",Ele->val);
     free(Ele);
     return Q ;  }
+    //Fonction de rechercher une elements
+    int Recher_Elet(Liste *T , int Val){
+    Liste *elet =T ;
+    if(elet == NULL) return 0 ;
+    if(elet->val==Val){
+        return 1 ;
+    }else {  return Recher_Elet(elet->suiv,Val);  }
+    }
 //Procedure pour afficher les elements d'une liste
 void affiche_list(Liste *L){
 Liste *T;
@@ -101,7 +109,7 @@ main(){
     }while(pos<=0 || pos>nbr);
     liste=Inserer_Mil(liste ,pos);
     //inserer à l'afin de la liste
-    liste= Inserer_Fin(liste);*/
+    liste= Inserer_Fin(liste);
       //appel de la fonction affiche_list
     affiche_list(liste);
      //Apell de la fct sup le debut
@@ -113,4 +121,9 @@ main(){
     liste = Sup_Fin(liste);
     //Appel fct affiche apres supression
     affiche_list(liste);
+     //Appel de la fct recherche ele
+    printf("\n Donnez la valeur recherche :");    scanf("%d",&v);
+    if(Recher_Elet(liste,v)==1){   printf("la valeur %d existe dans la liste chainee .",v);
+    }else{   printf("la valeur %d n'existe pas  dans la liste chainee .",v);
+    }
 }

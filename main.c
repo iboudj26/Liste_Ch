@@ -20,6 +20,21 @@ for(i=2;i<=n;i++){
 }L=T;
    return L;
 }
+Liste* Tri_insrt(Liste *debut){
+ Liste *tp , *p;
+ int PR;;
+ if(debut!=NULL){
+    for(tp=debut;tp->suiv !=NULL;tp=tp->suiv)
+        for(p=tp->suiv;p!=NULL;p=p->suiv){
+            if (p->val<tp->val){
+           PR=p->val;
+           p->val=tp->val ;
+           tp->val=PR ;
+            }
+        }
+ }
+    return debut ;
+}
 //fonction insertion d'une nouvelle tete
 Liste* Inserer_tete(Liste *L){
 Liste *P ;
@@ -91,39 +106,45 @@ void affiche_list(Liste *L){
 Liste *T;
 T=L;
 printf("\n les elements de la liste sont : ");
+
 while (T != NULL){
     printf("%d\t",T->val);
     T=T->suiv;    }  }
 main(){
-    Liste *T,*liste;
+    Liste *T,*liste,*listeF;
     int nbr , pos ;
      printf("Donnez le nbr des elements de la liste : ");      scanf("%d",&nbr);
     //Appel de la fonction Creer_Liste
     liste = Creer_Liste(nbr , T);
     //appel de la fonction affiche_list
     affiche_list(liste);
+    printf("*****Liste non triee*****");
+    listeF=Tri_insrt(liste);
+     affiche_list(listeF);
+     printf("****Liste triee****");
     //inserer une nouvelle tete
-    liste = Inserer_tete(liste);
+    liste = Inserer_tete(listeF);
      //Inserer au milieu de la liste
     do{   printf("\n Donnez la position pour inserer une nouvelle elet : ");    scanf("%d",&pos);
     }while(pos<=0 || pos>nbr);
-    liste=Inserer_Mil(liste ,pos);
+    liste=Inserer_Mil(listeF ,pos);
     //inserer à l'afin de la liste
-    liste= Inserer_Fin(liste);
+    liste= Inserer_Fin(listeF);
       //appel de la fonction affiche_list
-    affiche_list(liste);
+    affiche_list(listeF);
      //Apell de la fct sup le debut
-    liste = Sup_Tete(liste);
+    listeF = Sup_Tete(listeF);
     //Sup milieu
     do{        printf("\n Donnez la position pour suprimer elet : ");      scanf("%d",&pos);   }while(pos<=0 || pos>nbr);
-    liste = Sup_Mil(liste,pos);
+    listeF = Sup_Mil(listeF,pos);
      //Appel de la fct sup la fin
-    liste = Sup_Fin(liste);
+    listeF = Sup_Fin(listeF);
     //Appel fct affiche apres supression
-    affiche_list(liste);
+    affiche_list(listeF);
+    int v ;
      //Appel de la fct recherche ele
     printf("\n Donnez la valeur recherche :");    scanf("%d",&v);
-    if(Recher_Elet(liste,v)==1){   printf("la valeur %d existe dans la liste chainee .",v);
+    if(Recher_Elet(listeF,v)==1){   printf("la valeur %d existe dans la liste chainee .",v);
     }else{   printf("la valeur %d n'existe pas  dans la liste chainee .",v);
     }
 }

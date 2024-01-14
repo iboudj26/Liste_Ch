@@ -111,40 +111,48 @@ while (T != NULL){
     printf("%d\t",T->val);
     T=T->suiv;    }  }
 main(){
-    Liste *T,*liste,*listeF;
+   printf("Bienvenue sur Mon Programme !");
+    char Ch[50] ;
+    Liste *T,*liste;
     int nbr , pos ;
-     printf("Donnez le nbr des elements de la liste : ");      scanf("%d",&nbr);
+     printf("\n Donnez le nbr des elements de la liste : ");      scanf("%d",&nbr);
     //Appel de la fonction Creer_Liste
     liste = Creer_Liste(nbr , T);
     //appel de la fonction affiche_list
     affiche_list(liste);
-    printf("*****Liste non triee*****");
-    listeF=Tri_insrt(liste);
-     affiche_list(listeF);
-     printf("****Liste triee****");
-    //inserer une nouvelle tete
-    liste = Inserer_tete(listeF);
-     //Inserer au milieu de la liste
+    printf("\n*****Liste non triee*****");
+    liste=Tri_insrt(liste);
+     affiche_list(liste);
+     printf("\n****Liste triee****\n");
+     int true ;
+     true=1;
+     while(true == 1){
+        printf("\n Veuillez choisir une Modification :(ins_deb , insert_mil , insert_fin , Sup_deb , Sup_mil , Sup fin , Rech ,Quitter): \n");
+        scanf("%s",&Ch);
+        if(strcmp(Ch ,"Quitter")==0 ){
+            printf("Au revoir !");    true=0;
+        }
+       if(strcmp(Ch,"ins_deb")==0) { //inserer une nouvelle tete
+           liste = Inserer_tete(liste);
+           affiche_list(liste);   }
+      if(strcmp(Ch,"insert_mil")==0){ //Inserer au milieu de la liste
     do{   printf("\n Donnez la position pour inserer une nouvelle elet : ");    scanf("%d",&pos);
     }while(pos<=0 || pos>nbr);
-    liste=Inserer_Mil(listeF ,pos);
-    //inserer à l'afin de la liste
-    liste= Inserer_Fin(listeF);
-      //appel de la fonction affiche_list
-    affiche_list(listeF);
-     //Apell de la fct sup le debut
-    listeF = Sup_Tete(listeF);
-    //Sup milieu
+    liste=Inserer_Mil(liste ,pos);    affiche_list(liste);          }
+        if(strcmp(Ch,"insert_fin")==0){  //inserer à l'afin de la liste
+           liste= Inserer_Fin(liste);    affiche_list(liste);               }
+       if (strcmp(Ch,"Sup_deb")==0){        //Apell de la fct sup le debut
+    liste = Sup_Tete(liste);   affiche_list(liste);       }
+       if (strcmp(Ch,"Sup_mil")==0){    //Sup milieu
     do{        printf("\n Donnez la position pour suprimer elet : ");      scanf("%d",&pos);   }while(pos<=0 || pos>nbr);
-    listeF = Sup_Mil(listeF,pos);
-     //Appel de la fct sup la fin
-    listeF = Sup_Fin(listeF);
-    //Appel fct affiche apres supression
-    affiche_list(listeF);
-    int v ;
-     //Appel de la fct recherche ele
-    printf("\n Donnez la valeur recherche :");    scanf("%d",&v);
-    if(Recher_Elet(listeF,v)==1){   printf("la valeur %d existe dans la liste chainee .",v);
+    liste = Sup_Mil(liste,pos);                   affiche_list(liste);    }
+     if (strcmp(Ch,"Sup_fin")==0){   //Appel de la fct sup la fin
+    liste = Sup_Fin(liste);   affiche_list(liste);           }
+       if (strcmp(Ch,"Rech")==0){//Appel de la fct recherche ele
+             int v ;                        printf("\n Donnez la valeur recherche :");    scanf("%d",&v);
+             affiche_list(liste);
+    if(Recher_Elet(liste,v)==1){   printf("la valeur %d existe dans la liste chainee .",v);
     }else{   printf("la valeur %d n'existe pas  dans la liste chainee .",v);
-    }
+    }         }
+        }
 }

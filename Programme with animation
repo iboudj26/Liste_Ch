@@ -1,0 +1,234 @@
+#define RAYGUI_IMPLEMENTATION
+#define TAILLE 4
+#include <raylib.h>
+#include <raygui.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+//Declaration Bouton
+typedef struct Bouton {
+    Rectangle rect;
+    Color color;
+    const char* text;
+} Bouton;
+//Declaration liste
+typedef struct liste {
+    int val;
+    struct liste* svt;
+} liste;
+//Creation Liste et Ajout Element
+liste* Cree_liste(int x) {
+    liste* p = (liste*)malloc(sizeof(liste));
+    p->val = x;
+    p->svt = NULL;
+    return p;
+}
+
+void Ajout_fin(liste** T, int x) {
+    liste* p = Cree_liste(x);
+    if (*T == NULL) {
+        *T = p;
+    } else {
+        liste* q = *T;
+        while (q->svt != NULL) {
+            q = q->svt;
+        }
+        q->svt = p;
+    }
+}
+//Tri liste par insertion
+liste* Tri_Insertion(liste* T) {
+    if (T == NULL || T->svt == NULL) {
+        // La liste est déjà triée ou vide
+        return T;
+    }
+
+    liste* p = NULL;
+    liste* q = T;
+
+    while (q != NULL) {
+        liste* suivant = q->svt;
+
+        if (p == NULL || q->val <= p->val) {
+            // Insérer au début de la liste triée
+            q->svt = p;
+            p = q;
+        } else {
+            // Trouver la position d'insertion dans la liste triée
+            liste* temp = p;
+            while (temp->svt != NULL && q->val > temp->svt->val) {
+                temp = temp->svt;
+            }
+            q->svt = temp->svt;
+            temp->svt = q;
+        }
+
+        q = suivant;
+    }
+
+    return p;
+}
+//Liberer la memoire
+void liberer(liste* T) {
+    liste* p;
+    while (T != NULL) {
+        p = T;
+        T = T->svt;
+        free(p);
+    }
+}
+//Afficher Tete
+void AfficheNoeud(liste*T){
+  DrawText("T", 60 , 170, 20, WHITE);
+  DrawRectangle(50, 200, 100, 50, BLUE);
+  DrawText(TextFormat("%d", T),60, 210, 15, WHITE);
+}
+//Affichage complet de la liste
+void Affichage(liste* T) {
+    liste* q = T;
+    int posX = 50;
+    Vector2 deb={100,250};
+    Vector2 end={110,300};
+    AfficheNoeud(T);
+    while (q != NULL) {
+        DrawLineV(deb,end,WHITE);
+        DrawRectangle(posX,300,100,50, PURPLE);
+        DrawText(TextFormat("%d", q->val), posX + 10, 320, 20, WHITE);
+        DrawRectangleLines(posX,300,100,50,WHITE);
+        posX+=100;
+        DrawRectangle(posX, 300, 100, 50, PURPLE);
+        DrawText(TextFormat("%d", q->svt), posX + 10, 320, 10, WHITE);
+        DrawRectangleLines(posX,300,100,50,WHITE);
+        DrawText(TextFormat("%d", q), posX-70 , 370, 20, WHITE);
+        posX += 150;
+        deb.x=posX-50;
+        deb.y=325;
+        end.x=posX;
+        end.y=325;
+        q = q->svt;
+    }
+}
+//Initialisation des 4 boutons
+void InitButton(Bouton bouton[TAILLE]) {
+    bouton[0].rect = (Rectangle){100, 600, 300, 100};
+    bouton[0].color = GRAY;
+    bouton[0].text = "RECOMMENCER";
+
+    bouton[1].rect = (Rectangle){500, 600, 300, 100};
+    bouton[1].color = GRAY;
+    bouton[1].text = "AJOUT ENTIER";
+
+    bouton[2].rect = (Rectangle){900, 600, 300, 100};
+    bouton[2].color = GRAY;
+    bouton[2].text = "TRI";
+
+    bouton[3].rect = (Rectangle){1300, 600, 300, 100};
+    bouton[3].color = RED;
+    bouton[3].text = "QUITTER";
+}
+
+int main() {
+    InitWindow(1800,900,"Interface Liste Unidirectionnsel");
+
+    liste* T = NULL;
+    Bouton bouton[TAILLE];
+    int userInput = NULL;
+
+    InitButton(bouton);
+
+    char inputText[5] = {0};  // Pour stocker le texte de la zone de texte
+    bool textEditMode = false;
+    while (!WindowShouldClose()) {
+        BeginDrawing();
+        ClearBackground(BLACK);
+
+        // Affichage des boutons
+        for (int i = 0; i < TAILLE; i++) {
+            DrawRectangleRec(bouton[i].rect, bouton[i].color);
+            DrawText(bouton[i].text, bouton[i].rect.x + (300 - MeasureText(bouton[i].text, 30)) / 2,
+                     bouton[i].rect.y + (100 - 30) / 2, 30, WHITE);
+        }
+
+        // Affichage de la liste
+        Affichage(T);
+        //Titre sur le coté
+        DrawText("L",1705,50,40,WHITE);
+        DrawText("I",1708,90,40,WHITE);
+        DrawText("S",1700,130,40,WHITE);
+        DrawText("T",1700,170,40,WHITE);
+        DrawText("E",1700,210,40,WHITE);
+        DrawText("U",1700,270,40,WHITE);
+        DrawText("N",1700,310,40,WHITE);
+        DrawText("I",1708,350,40,WHITE);
+        DrawText("D",1700,390,40,WHITE);
+        DrawText("I",1708,430,40,WHITE);
+        DrawText("R",1700,470,40,WHITE);
+        DrawText("E",1700,510,40,WHITE);
+        DrawText("C",1700,550,40,WHITE);
+        DrawText("T",1700,590,40,WHITE);
+        DrawText("I",1708,630,40,WHITE);
+        DrawText("O",1700,670,40,WHITE);
+        DrawText("N",1700,710,40,WHITE);
+        DrawText("N",1700,750,40,WHITE);
+        DrawText("E",1700,790,40,WHITE);
+        DrawText("L",1705,830,40,WHITE);
+        //Consigne
+        DrawText("SI vous voulez cree une liste clicker sur le bouton < AJOUT ENTIER >,inserer votre entier puis taper sur Entrer",200,750,20,RED);
+        DrawText("SI vous voulez trier la liste clicker sur le bouton < Trie >",200,800,20,RED);
+        DrawText("SI vous voulez cree une liste clicker sur le bouton < Recommencer >",200,850,20,RED);
+        // Zone de texte pour entrée un entier
+        GuiTextBox((Rectangle){300, 50, 300, 40}, inputText, 100, textEditMode);
+
+        // Bouton "Reccommencer" pour recommencer la creation
+          if (CheckCollisionPointRec(GetMousePosition(), bouton[0].rect)) {
+            bouton[0].color = RED;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                T=NULL;
+                AfficheNoeud(T);
+            }
+        } else {
+            bouton[0].color = GRAY;
+        }
+       //Bouton "Ajout entier" pour ajouter a la liste un entier
+        if (CheckCollisionPointRec(GetMousePosition(), bouton[1].rect)) {
+            bouton[1].color = RED;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+                textEditMode = !textEditMode; // Activer/désactiver le mode édition de texte
+            }
+        } else {
+            bouton[1].color = GRAY;
+        }
+
+        // Si le mode édition de texte est activé, convertir le texte en entier lors de l'appui sur la touche Entrée
+        if (textEditMode && IsKeyPressed(KEY_ENTER)) {
+            sscanf(inputText, "%d", &userInput);
+            Ajout_fin(&T, userInput);
+            textEditMode = false;  // Désactiver le mode édition de texte après l'ajout
+            memset(inputText, 0, sizeof(inputText));  // Réinitialiser le texte de la zone de texte
+        }
+
+        // Bouton "TRI LISTE"
+        if (CheckCollisionPointRec(GetMousePosition(), bouton[2].rect)) {
+            bouton[2].color = RED;
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+            T=Tri_Insertion(T);
+            }
+        } else {
+            bouton[2].color = GRAY;
+        }
+         if (CheckCollisionPointRec(GetMousePosition(), bouton[3].rect)) {
+            if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
+
+            }
+        }
+
+
+
+        EndDrawing();
+    }
+
+            liberer(T);
+            CloseWindow();
+
+    return 0;
+}
